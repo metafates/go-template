@@ -1,23 +1,25 @@
 package color
 
+import "github.com/charmbracelet/lipgloss"
+
 const (
-	Red    = "1"
-	Green  = "2"
-	Yellow = "3"
-	Blue   = "4"
-	Purple = "5"
-	Cyan   = "6"
-	White  = "7"
-	Black  = "8"
+	Red    = lipgloss.Color("1")
+	Green  = lipgloss.Color("2")
+	Yellow = lipgloss.Color("3")
+	Blue   = lipgloss.Color("4")
+	Purple = lipgloss.Color("5")
+	Cyan   = lipgloss.Color("6")
+	White  = lipgloss.Color("7")
+	Black  = lipgloss.Color("8")
 )
 
 const (
-	HiRed    = "9"
-	HiGreen  = "10"
-	HiYellow = "11"
-	HiBlue   = "12"
-	HiPurple = "13"
-	HiCyan   = "14"
-	HiWhite  = "15"
-	HiBlack  = "16"
+	HiRed    = lipgloss.Color("9")
+	HiGreen  = lipgloss.Color("10")
+	HiYellow = lipgloss.Color("11")
+	HiBlue   = lipgloss.Color("12")
+	HiPurple = lipgloss.Color("13")
+	HiCyan   = lipgloss.Color("14")
+	HiWhite  = lipgloss.Color("15")
+	HiBlack  = lipgloss.Color("16")
 )

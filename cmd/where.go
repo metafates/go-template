@@ -34,8 +34,8 @@ var whereCmd = &cobra.Command{
 	Use:   "where",
 	Short: "Show the paths for a files related to the " + constant.App,
 	Run: func(cmd *cobra.Command, args []string) {
-		headerStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color(color.HiPurple)).Render
-		yellowStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(color.Yellow)).Render
+		headerStyle := lipgloss.NewStyle().Bold(true).Foreground(color.HiPurple).Render
+		yellowStyle := lipgloss.NewStyle().Foreground(color.Yellow).Render
 
 		for _, n := range wherePaths {
 			if lo.Must(cmd.Flags().GetBool(n.A)) {

@@ -8,15 +8,11 @@ import (
 
 var (
 	EnvKeyReplacer = strings.NewReplacer(".", "_")
-	EnvExposed     []string
+	EnvPrefix      = constant.App + "_"
 )
 
 // setEnvs sets the environment variables
 func setEnvs() {
-	viper.SetEnvPrefix(constant.App)
+	viper.SetEnvPrefix(EnvPrefix)
 	viper.SetEnvKeyReplacer(EnvKeyReplacer)
-
-	for _, env := range EnvExposed {
-		viper.MustBindEnv(env)
-	}
 }

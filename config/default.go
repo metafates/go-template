@@ -5,13 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type field struct {
-	key         string
-	value       any
-	description string
-}
-
-var fields = []field{
+var fields = []Field{
 	// LOGS
 	{
 		constant.LogsWrite,
@@ -29,12 +23,12 @@ panic, fatal, error, warn, info, debug, trace`,
 }
 
 func setDefaults() {
-	Default = make(map[string]any)
+	Default = make(map[string]Field)
 	for _, f := range fields {
-		Default[f.key] = f.value
-		viper.SetDefault(f.key, f.value)
-		EnvExposed = append(EnvExposed, f.key)
+		Default[f.Key] = f
+		viper.SetDefault(f.Key, f.Value)
+		viper.MustBindEnv(f.Key)
 	}
 }
 
-var Default map[string]any
+var Default map[string]Field
