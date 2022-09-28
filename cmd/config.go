@@ -66,8 +66,6 @@ var configInfoCmd = &cobra.Command{
 			} else {
 				handleErr(errUnknownKey(key))
 			}
-
-			return
 		}
 
 		for i, field := range fields {
