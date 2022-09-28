@@ -1,9 +1,9 @@
 package icon
 
-func Cross() string {
-	return "✖"
-}
+const (
+	// Cross is a cross icon
+	Cross = "✖"
 
-func Check() string {
-	return "✔"
-}
+	// Check is a check icon
+	Check = "✔"
+)

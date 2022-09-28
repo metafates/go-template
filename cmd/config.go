@@ -131,7 +131,7 @@ var configSetCmd = &cobra.Command{
 
 		fmt.Printf(
 			"%s set %s to %s\n",
-			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check()),
+			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
 			lipgloss.NewStyle().Foreground(color.Purple).Render(key),
 			lipgloss.NewStyle().Foreground(color.Yellow).Render(fmt.Sprintf("%v", v)),
 		)
@@ -206,24 +206,27 @@ var configWriteCmd = &cobra.Command{
 	Short: "Write current config to the file",
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
-			force = lo.Must(cmd.Flags().GetBool("force"))
+			force          = lo.Must(cmd.Flags().GetBool("force"))
+			configFilePath = filepath.Join(
+				where.Config(),
+				fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat),
+			)
 		)
 
 		if force {
 			err := filesystem.
 				Api().
-				Remove(
-					filepath.Join(
-						where.Config(),
-						fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat),
-					),
-				)
+				Remove(configFilePath)
 
 			handleErr(err)
 		}
 
 		handleErr(viper.SafeWriteConfig())
-		fmt.Printf("%s wrote config to %s\n", lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check()), viper.ConfigFileUsed())
+		fmt.Printf(
+			"%s wrote config to %s\n",
+			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
+			configFilePath,
+		)
 	},
 }
 
@@ -246,6 +249,9 @@ var configDeleteCmd = &cobra.Command{
 			)
 
 		handleErr(err)
-		fmt.Printf("%s deleted config\n", lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check()))
+		fmt.Printf(
+			"%s deleted config\n",
+			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
+		)
 	},
 }

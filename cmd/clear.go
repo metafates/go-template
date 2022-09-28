@@ -38,7 +38,7 @@ var clearCmd = &cobra.Command{
 		for _, n := range clearTargets {
 			if lo.Must(cmd.Flags().GetBool(n.A)) {
 				handleErr(n.B())
-				fmt.Printf("%s %s cleared\n", successStyle(icon.Check()), util.Capitalize(n.A))
+				fmt.Printf("%s %s cleared\n", successStyle(icon.Check), util.Capitalize(n.A))
 				didSomething = true
 			}
 		}
