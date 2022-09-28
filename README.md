@@ -11,7 +11,7 @@ Powerful template for Go CLI applications with advanced config management
 - Polished CLI experience with [cobra](https://github.com/spf13/cobra) + [coloredcobra](https://github.com/ivanpirog/coloredcobra) to make things look pretty
 
 - [Afero](https://github.com/spf13/afero) filesystem for various fs utils, abstractions and in-memory fs for testing.
-  For example, insted of `os.Remove("file")` use `filesystem.Api().Remove("file")`
+  For example, instead of `os.Remove("file")` use `filesystem.Api().Remove("file")`
 
 - Easy to use path management with `where` package
 
