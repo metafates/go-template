@@ -6,8 +6,10 @@ import (
 	cc "github.com/ivanpirog/coloredcobra"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/constant"
+	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
 	"github.com/metafates/go-template/log"
+	"github.com/metafates/go-template/where"
 	"github.com/spf13/cobra"
 	"os"
 	"strings"
@@ -30,6 +32,12 @@ func Execute() {
 		Flags:         cc.Bold,
 		FlagsDataType: cc.Italic + cc.HiBlue,
 	})
+
+	// Clears temp files on each run.
+	// It should not affect startup time since it's being run in parallel.
+	go func() {
+		_ = filesystem.Api().RemoveAll(where.Temp())
+	}()
 
 	_ = rootCmd.Execute()
 }

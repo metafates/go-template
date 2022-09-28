@@ -8,6 +8,8 @@ Powerful template for Go CLI applications with advanced config management
   useful config commands such as setting config values directly from CLI (like this `config set -k logs.write -v true`),
   reading env variables and file-based configuration (either TOML or YAML). Also, configuration is self-documented, type `config info` to show every config field available with description for each.
 
+- Cache & Temp files management with `clear` command
+
 - Polished CLI experience with [cobra](https://github.com/spf13/cobra) + [coloredcobra](https://github.com/ivanpirog/coloredcobra) to make things look pretty
 
 - [Afero](https://github.com/spf13/afero) filesystem for various fs utils, abstractions and in-memory fs for testing.
