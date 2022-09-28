@@ -6,7 +6,7 @@ Template for Go CLI applications with advanced config management
 
 - Advanced config management with viper and
   useful config commands such as setting config values directly from CLI (like this `config set -k logs.write -v true`),
-  reading env variables and file-based configuration (either TOML or YAML)
+  reading env variables and file-based configuration (either TOML or YAML). Also, configuration is self-documented, type `config info` to show every config field available with description for each.
 
 - Polished CLI experience with cobra library + coloredcobra to make things look pretty
 
