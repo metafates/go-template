@@ -81,9 +81,11 @@ var configInfoCmd = &cobra.Command{
 func init() {
 	configCmd.AddCommand(configSetCmd)
 	configSetCmd.Flags().StringP("key", "k", "", "The key to set the value for")
+	lo.Must0(configSetCmd.MarkFlagRequired("key"))
 	_ = configSetCmd.RegisterFlagCompletionFunc("key", completionConfigKeys)
 
 	configSetCmd.Flags().StringP("value", "v", "", "The value to set")
+	lo.Must0(configSetCmd.MarkFlagRequired("value"))
 }
 
 var configSetCmd = &cobra.Command{
@@ -139,6 +141,7 @@ var configSetCmd = &cobra.Command{
 func init() {
 	configCmd.AddCommand(configGetCmd)
 	configGetCmd.Flags().StringP("key", "k", "", "The key to get the value for")
+	lo.Must0(configGetCmd.MarkFlagRequired("key"))
 	_ = configGetCmd.RegisterFlagCompletionFunc("key", completionConfigKeys)
 }
 
