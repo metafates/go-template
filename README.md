@@ -22,3 +22,43 @@ Powerful template for Go CLI applications with advanced config management
 - Icons!
 
 - Predefined lipgloss colors
+
+## How to use
+
+Press this shiny green button on top
+
+<img width="203" alt="Screenshot 2022-09-30 at 13 37 30" src="https://user-images.githubusercontent.com/62389790/193252456-42b966a7-2679-4868-bf25-d862524733ee.png">
+
+
+And.... that's it! 
+
+## Further usage
+
+### Declaring new config fields
+
+Firstly, declare a field key name as a constant inside [constant/keys.go](https://github.com/metafates/go-template/blob/main/constant/keys.go)
+
+Then put them inside [config/default.go](https://github.com/metafates/go-template/blob/0a71f1da1c51415469067edbfbe4cbb90e06ef13/config/default.go#L8:L23) (take a predefined fields for logging as a reference)
+
+For example
+
+```go
+// constant/keys.go
+
+const IconType = "icon.type"
+```
+
+```go
+// config/default.go
+
+{
+  constant.IconType, // config field key
+  "emoji", // default value
+  "What type of icons to use", // description
+}
+```
+
+### Accessing config fields
+
+For the example above it would be `viper.GetString(constant.EmojiType)`. See [viper](https://github.com/spf13/viper) for more information
+
