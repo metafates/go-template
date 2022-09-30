@@ -62,3 +62,7 @@ const IconType = "icon.type"
 
 For the example above it would be `viper.GetString(constant.EmojiType)`. See [viper](https://github.com/spf13/viper) for more information
 
+
+## Something is not clear?
+
+Please, [open an issue](https://github.com/metafates/go-template/issues/new) so I could document it
