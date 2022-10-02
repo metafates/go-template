@@ -13,7 +13,6 @@ help:
 	@echo "Targets:"
 	@echo "  build        Build the binary"
 	@echo "  install      Install the binary"
-	@echo "  uninstall    Uninstall the binary"
 	@echo "  test         Run the tests"
 	@echo "  help         Show this help message"
 	@echo ""
@@ -27,6 +26,3 @@ build:
 
 test:
 	@go test ./...
-
-uninstall:
-	@rm -f $(shell which teleq)
