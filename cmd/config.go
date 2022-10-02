@@ -215,11 +215,13 @@ var configWriteCmd = &cobra.Command{
 		)
 
 		if force {
-			err := filesystem.
-				Api().
-				Remove(configFilePath)
-
+			exists, err := filesystem.Api().Exists(configFilePath)
 			handleErr(err)
+
+			if exists {
+				err := filesystem.Api().Remove(configFilePath)
+				handleErr(err)
+			}
 		}
 
 		handleErr(viper.SafeWriteConfig())
@@ -240,14 +242,20 @@ var configDeleteCmd = &cobra.Command{
 	Short:   "Delete the config file",
 	Aliases: []string{"remove"},
 	Run: func(cmd *cobra.Command, args []string) {
-		err := filesystem.
-			Api().
-			Remove(
-				filepath.Join(
-					where.Config(),
-					fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat),
-				),
+		configFilePath := filepath.Join(where.Config(), fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat))
+
+		exists, err := filesystem.Api().Exists(configFilePath)
+		handleErr(err)
+
+		if !exists {
+			fmt.Printf(
+				"%s nothing to delete\n",
+				lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
 			)
+			return
+		}
+
+		err = filesystem.Api().Remove(configFilePath)
 
 		handleErr(err)
 		fmt.Printf(
