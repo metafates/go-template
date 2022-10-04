@@ -3,6 +3,11 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+	"sort"
+	"strconv"
+
 	"github.com/charmbracelet/lipgloss"
 	levenshtein "github.com/ka-weihe/fast-levenshtein"
 	"github.com/metafates/go-template/color"
@@ -14,9 +19,6 @@ import (
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"os"
-	"path/filepath"
-	"strconv"
 )
 
 func errUnknownKey(key string) error {
@@ -67,6 +69,10 @@ var configInfoCmd = &cobra.Command{
 				handleErr(errUnknownKey(key))
 			}
 		}
+
+		sort.Slice(fields, func(i, j int) bool {
+			return fields[i].Key < fields[j].Key
+		})
 
 		for i, field := range fields {
 			fmt.Print(field.Pretty())

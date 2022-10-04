@@ -26,3 +26,4 @@ build:
 
 test:
 	@go test ./...
+
