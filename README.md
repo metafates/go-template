@@ -32,8 +32,14 @@ Press this shiny green button on top
 
 <img width="203" alt="Screenshot 2022-09-30 at 13 37 30" src="https://user-images.githubusercontent.com/62389790/193252456-42b966a7-2679-4868-bf25-d862524733ee.png">
 
+Then you would probably want to rename go mod name from `github.com/metafates/go-template` to something else.
+To do this you could use your IDE refactor features or run [make](https://www.gnu.org/software/make/) target.
 
-And.... that's it! 
+```shell
+make rename
+```
+
+This will prompt you to type a new name and will replace every occurence of the old go mod name with the new one.
 
 ## Further usage
 

@@ -5,13 +5,12 @@ ldflags += -w
 
 build_flags := -ldflags=${ldflags}
 
-go_mod := $(shell grep -m 1 go go.mod | cut -d\  -f2)
+go_mod := $(shell grep -m 1 module go.mod | cut -d\  -f2)
 app := $(shell echo ${go_mod} | awk -F/ '{print $$NF}')
 go_version_required := $(shell grep -m 2 go go.mod | tail -n 1 | cut -d\  -f2)
 
 # Checks if the go compiler is installed and if it is the correct version
-define check_go
-	@if [ -z "$$(which go)" ]; then \
+define check_go @if [ -z "$$(which go)" ]; then \
 		echo "go is not installed"; \
 		exit 1; \
 	else \
@@ -65,14 +64,18 @@ test:
 	@go test ./...
 
 rename:
-	# rename the go.mod name and all occurrences of the old name in the code
-	# take a new name from the arguments
-	# example: make rename NEW_NAME=foo
-	$(call check_go)
-	$(call print_faint,"Renaming ${go_mod} to ${NEW_NAME}...")
+	$(eval new_go_mod := $(shell read -p "Enter new go mod name: " NEW_GO_MOD; echo $$NEW_GO_MOD))
+	$(info ${go_mod} -> ${new_go_mod})
+	$(eval confirm := $(shell read -p "Proceed? [y/N] " CONFIRM; echo $$CONFIRM))
+	@if [ "${confirm}" != "y" ]; then \
+		echo "Aborting"; \
+		exit 1; \
+	fi
 
-	# iterate over all files and all nested files to replace the old name with the new name
-	@find . -type f -exec sed -i '' -e 's/${go_mod}/${NEW_NAME}/g' {} \;
+	$(call print_faint,"Renaming ${go_mod} to ${new_go_mod}...")
+
+	@find . -type f -not -path './.git/*' -exec sed -i '' -e "s|${go_mod}|${new_go_mod}|g" {} \;
+	
 	
 	$(call print_green,Renamed)
 
@@ -80,4 +83,4 @@ uninstall:
 	@rm -f $(shell which ${app})
 	$(call print_yellow,Uninstalled)
 
-.PHONY: all help install build test uninstall
+.PHONY: all help install build test uninstall rename
