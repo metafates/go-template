@@ -42,6 +42,7 @@ help:
 	@echo "  build        Build the ${app} binary"
 	@echo "  install      Install the ${app} binary"
 	@echo "  uninstall    Uninstall the ${app} binary"
+	@echo "  rename       Rename go.mod name"
 	@echo "  test         Run the tests"
 	@echo "  help         Show this help message"
 	@echo ""
