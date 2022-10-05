@@ -1,9 +1,13 @@
 package icon
 
 const (
-	// Cross is a cross icon
-	Cross = "✖"
-
-	// Check is a check icon
-	Check = "✔"
+	Cross    = "✖"
+	Check    = "✔"
+	Arrow    = "➜"
+	Info     = "ℹ"
+	Star     = "★"
+	Heart    = "♥"
+	Warn     = "⚠"
+	Gear     = "⚙"
+	Ellipsis = "…"
 )

@@ -9,11 +9,18 @@ import (
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 )
 
 var wherePaths = []lo.Tuple2[string, func() string]{
 	{"config", where.Config},
 	{"logs", where.Logs},
+}
+
+func init() {
+	for _, p := range wherePaths {
+		p.A = strings.ToLower(p.A)
+	}
 }
 
 func init() {

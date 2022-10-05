@@ -5,7 +5,10 @@ import (
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/where"
 	"github.com/spf13/viper"
+	"strings"
 )
+
+var EnvKeyReplacer = strings.NewReplacer(".", "_")
 
 func Init() error {
 	viper.SetConfigName(constant.App)
@@ -13,8 +16,9 @@ func Init() error {
 	viper.SetFs(filesystem.Api())
 	viper.AddConfigPath(where.Config())
 	viper.SetTypeByDefaultValue(true)
+	viper.SetEnvPrefix(constant.App)
+	viper.SetEnvKeyReplacer(EnvKeyReplacer)
 
-	setEnvs()
 	setDefaults()
 
 	err := viper.ReadInConfig()
