@@ -8,11 +8,10 @@ import (
 
 var (
 	EnvKeyReplacer = strings.NewReplacer(".", "_")
-	EnvPrefix      = constant.App + "_"
 )
 
 // setEnvs sets the environment variables
 func setEnvs() {
-	viper.SetEnvPrefix(EnvPrefix)
+	viper.SetEnvPrefix(constant.App)
 	viper.SetEnvKeyReplacer(EnvKeyReplacer)
 }

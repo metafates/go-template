@@ -12,9 +12,10 @@ func Init() error {
 	viper.SetConfigType(constant.ConfigFormat)
 	viper.SetFs(filesystem.Api())
 	viper.AddConfigPath(where.Config())
+	viper.SetTypeByDefaultValue(true)
 
-	setDefaults()
 	setEnvs()
+	setDefaults()
 
 	err := viper.ReadInConfig()
 
