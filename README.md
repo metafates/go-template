@@ -43,6 +43,14 @@ This will prompt you to type a new name and will replace every occurence of the 
 
 ## Further usage
 
+### Changing name of the app
+
+Change the value of the constant `App` at [constant/constant.go](https://github.com/metafates/go-template/blob/main/constant/constant.go)
+
+### Changing config file format from TOML from YAML
+
+Change the value of the constant `ConfigFormat` at [constant/constant.go](https://github.com/metafates/go-template/blob/main/constant/constant.go)
+
 ### Declaring new config fields
 
 Firstly, declare a field key name as a constant inside [constant/keys.go](https://github.com/metafates/go-template/blob/main/constant/keys.go)
