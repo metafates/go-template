@@ -18,7 +18,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     strings.ToLower(constant.App),
-	Short:   "App description",,
+	Short:   "App description",
 	Version: constant.Version,
 }
 
