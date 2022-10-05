@@ -36,7 +36,6 @@ endef
 all: help
 
 help:
-	$(call check_go)
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
