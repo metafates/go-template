@@ -5,7 +5,8 @@ ldflags += -w
 
 build_flags := -ldflags=${ldflags}
 
-app := $(shell grep -m 1 go go.mod | cut -d\  -f2 | awk -F/ '{print $$NF}')
+go_mod := $(shell grep -m 1 go go.mod | cut -d\  -f2)
+app := $(shell echo ${go_mod} | awk -F/ '{print $$NF}')
 go_version_required := $(shell grep -m 2 go go.mod | tail -n 1 | cut -d\  -f2)
 
 # Checks if the go compiler is installed and if it is the correct version
@@ -62,6 +63,18 @@ build:
 test:
 	$(call check_go)
 	@go test ./...
+
+rename:
+	# rename the go.mod name and all occurrences of the old name in the code
+	# take a new name from the arguments
+	# example: make rename NEW_NAME=foo
+	$(call check_go)
+	$(call print_faint,"Renaming ${go_mod} to ${NEW_NAME}...")
+
+	# iterate over all files and all nested files to replace the old name with the new name
+	@find . -type f -exec sed -i '' -e 's/${go_mod}/${NEW_NAME}/g' {} \;
+	
+	$(call print_green,Renamed)
 
 uninstall:
 	@rm -f $(shell which ${app})
