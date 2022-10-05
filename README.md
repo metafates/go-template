@@ -2,6 +2,9 @@
 
 Powerful template for Go CLI applications with advanced config management
 
+<img width="912" alt="Screenshot 2022-10-05 at 11 14 32" src="https://user-images.githubusercontent.com/62389790/194013247-897697ee-4b32-4b5d-9667-462fcc45e161.png">
+
+
 ## Features
 
 - Advanced config management with [viper](https://github.com/spf13/viper) and
