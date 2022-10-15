@@ -21,6 +21,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// errUnknownKey will generate error for key that was not found and will provide a hint
 func errUnknownKey(key string) error {
 	closest := lo.MinBy(lo.Keys(config.Default), func(a string, b string) bool {
 		return levenshtein.Distance(key, a) < levenshtein.Distance(key, b)

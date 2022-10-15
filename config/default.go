@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// fields is the config fields with their default values and descriptions
 var fields = []Field{
 	// LOGS
 	{

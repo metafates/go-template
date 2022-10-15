@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Specify what can be cleared
 var clearTargets = []lo.Tuple2[string, func() error]{
 	{"cache", func() error {
 		return filesystem.Api().RemoveAll(where.Cache())

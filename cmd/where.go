@@ -17,6 +17,7 @@ type whereTarget struct {
 	argShort, argLong string
 }
 
+// Specify what paths to show
 var wherePaths = []whereTarget{
 	{"Config", where.Config, "c", "config"},
 	{"Logs", where.Logs, "l", "logs"},

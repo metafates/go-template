@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
+	// prepare config and logs
 	lo.Must0(config.Init())
 	lo.Must0(log.Init())
+
+	// run the app
 	cmd.Execute()
 }
