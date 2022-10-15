@@ -20,7 +20,7 @@ type Field struct {
 func (f Field) Pretty() string {
 	return fmt.Sprintf(
 		`%s
-%s: %s ~ %s
+%s: %s = %s
 `,
 		lipgloss.NewStyle().Faint(true).Render(f.Description),
 		lipgloss.NewStyle().Foreground(color.Purple).Render(f.Key),
