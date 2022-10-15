@@ -83,3 +83,7 @@ For the example above it would be `viper.GetString(constant.EmojiType)`. See [vi
 ## Something is not clear?
 
 Please, [open an issue](https://github.com/metafates/go-template/issues/new) so I could document it
+
+## Projects using this template
+
+- [Pat](https://github.com/metafates/pat) - TUI `$PATH` variable manager
