@@ -2,86 +2,70 @@ package log
 
 import log "github.com/sirupsen/logrus"
 
-func Panic(args ...interface{}) {
+func do(f func(...any), args ...any) {
 	if writeLogs {
-		log.Panic(args...)
+		f(args...)
 	}
+}
+
+func dof(f func(string, ...any), format string, args ...any) {
+	if writeLogs {
+		f(format, args...)
+	}
+}
+
+func Panic(args ...interface{}) {
+	do(log.Panic, args...)
 }
 
 func Panicf(format string, args ...interface{}) {
-	if writeLogs {
-		log.Panicf(format, args...)
-	}
+	dof(log.Panicf, format, args...)
 }
 
 func Fatal(args ...interface{}) {
-	if writeLogs {
-		log.Fatal(args...)
-	}
+	do(log.Fatal, args...)
 }
 
 func Fatalf(format string, args ...interface{}) {
-	if writeLogs {
-		log.Fatalf(format, args...)
-	}
+	dof(log.Fatalf, format, args...)
 }
 
 func Error(args ...interface{}) {
-	if writeLogs {
-		log.Error(args...)
-	}
+	do(log.Error, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
-	if writeLogs {
-		log.Errorf(format, args...)
-	}
+	dof(log.Errorf, format, args...)
 }
 
 func Warn(args ...interface{}) {
-	if writeLogs {
-		log.Warn(args...)
-	}
+	do(log.Warn, args...)
 }
 
 func Warnf(format string, args ...interface{}) {
-	if writeLogs {
-		log.Warnf(format, args...)
-	}
+	dof(log.Warnf, format, args...)
 }
 
 func Info(args ...interface{}) {
-	if writeLogs {
-		log.Info(args...)
-	}
+	do(log.Info, args...)
 }
 
 func Infof(format string, args ...interface{}) {
-	if writeLogs {
-		log.Infof(format, args...)
-	}
+	dof(log.Infof, format, args...)
 }
 
 func Debug(args ...interface{}) {
-	if writeLogs {
-		log.Debug(args...)
-	}
+	do(log.Debug, args...)
 }
 
 func Debugf(format string, args ...interface{}) {
-	if writeLogs {
-		log.Debugf(format, args...)
-	}
+	dof(log.Debugf, format, args...)
 }
 
 func Trace(args ...interface{}) {
-	if writeLogs {
-		log.Trace(args...)
-	}
+	do(log.Trace, args...)
 }
 
 func Tracef(format string, args ...interface{}) {
-	if writeLogs {
-		log.Tracef(format, args...)
-	}
+	dof(log.Tracef, format, args...)
 }
