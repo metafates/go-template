@@ -3,12 +3,12 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/metafates/go-template/style"
 	"os"
 	"path/filepath"
 	"sort"
 	"strconv"
 
-	"github.com/charmbracelet/lipgloss"
 	levenshtein "github.com/ka-weihe/fast-levenshtein"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/config"
@@ -28,8 +28,8 @@ func errUnknownKey(key string) error {
 	})
 	msg := fmt.Sprintf(
 		"unknown key %s, did you mean %s?",
-		lipgloss.NewStyle().Foreground(color.Red).Render(key),
-		lipgloss.NewStyle().Foreground(color.Yellow).Render(closest),
+		style.Fg(color.Red)(key),
+		style.Fg(color.Yellow)(closest),
 	)
 
 	return errors.New(msg)
@@ -138,9 +138,9 @@ var configSetCmd = &cobra.Command{
 
 		fmt.Printf(
 			"%s set %s to %s\n",
-			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
-			lipgloss.NewStyle().Foreground(color.Purple).Render(key),
-			lipgloss.NewStyle().Foreground(color.Yellow).Render(fmt.Sprintf("%v", v)),
+			style.Fg(color.Green)(icon.Check),
+			style.Fg(color.Purple)(key),
+			style.Fg(color.Yellow)(fmt.Sprintf("%v", v)),
 		)
 	},
 }
@@ -234,7 +234,7 @@ var configWriteCmd = &cobra.Command{
 		handleErr(viper.SafeWriteConfig())
 		fmt.Printf(
 			"%s wrote config to %s\n",
-			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
+			style.Fg(color.Green)(icon.Check),
 			configFilePath,
 		)
 	},
@@ -257,7 +257,7 @@ var configDeleteCmd = &cobra.Command{
 		if !exists {
 			fmt.Printf(
 				"%s nothing to delete\n",
-				lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
+				style.Fg(color.Green)(icon.Check),
 			)
 			return
 		}
@@ -267,7 +267,7 @@ var configDeleteCmd = &cobra.Command{
 		handleErr(err)
 		fmt.Printf(
 			"%s deleted config\n",
-			lipgloss.NewStyle().Foreground(color.Green).Render(icon.Check),
+			style.Fg(color.Green)(icon.Check),
 		)
 	},
 }

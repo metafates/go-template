@@ -3,10 +3,10 @@ package config
 import (
 	"fmt"
 	"github.com/metafates/go-template/constant"
+	"github.com/metafates/go-template/style"
 	"reflect"
 	"strings"
 
-	"github.com/charmbracelet/lipgloss"
 	"github.com/metafates/go-template/color"
 	"github.com/spf13/viper"
 )
@@ -22,10 +22,10 @@ func (f Field) Pretty() string {
 		`%s
 %s: %s = %s
 `,
-		lipgloss.NewStyle().Faint(true).Render(f.Description),
-		lipgloss.NewStyle().Foreground(color.Purple).Render(f.Key),
-		lipgloss.NewStyle().Foreground(color.Yellow).Render(reflect.TypeOf(f.Value).String()),
-		lipgloss.NewStyle().Foreground(color.Cyan).Render(fmt.Sprintf("%v", viper.Get(f.Key))),
+		style.Faint(f.Description),
+		style.Fg(color.Purple)(f.Key),
+		style.Fg(color.Yellow)(reflect.TypeOf(f.Value).String()),
+		style.Fg(color.Cyan)(fmt.Sprintf("%v", viper.Get(f.Key))),
 	)
 }
 

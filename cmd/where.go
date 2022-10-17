@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/charmbracelet/lipgloss"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/constant"
+	"github.com/metafates/go-template/style"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
@@ -45,8 +45,8 @@ var whereCmd = &cobra.Command{
 	Use:   "where",
 	Short: "Show the paths for a files related to the " + constant.App,
 	Run: func(cmd *cobra.Command, args []string) {
-		headerStyle := lipgloss.NewStyle().Bold(true).Foreground(color.HiPurple).Render
-		yellowStyle := lipgloss.NewStyle().Foreground(color.Yellow).Render
+		headerStyle := style.NewColored(color.HiPurple, "").Bold(true).Render
+		argStyle := style.Fg(color.Yellow)
 
 		for _, n := range wherePaths {
 			if lo.Must(cmd.Flags().GetBool(n.argLong)) {
@@ -56,7 +56,7 @@ var whereCmd = &cobra.Command{
 		}
 
 		for i, n := range wherePaths {
-			cmd.Printf("%s %s\n", headerStyle(n.name+"?"), yellowStyle("--"+n.argLong))
+			cmd.Printf("%s %s\n", headerStyle(n.name+"?"), argStyle("--"+n.argLong))
 			cmd.Println(n.where())
 
 			if i < len(wherePaths)-1 {

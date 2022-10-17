@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/charmbracelet/lipgloss"
 	cc "github.com/ivanpirog/coloredcobra"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/constant"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
 	"github.com/metafates/go-template/log"
+	"github.com/metafates/go-template/style"
 	"github.com/metafates/go-template/where"
 	"github.com/spf13/cobra"
 	"os"
@@ -48,7 +48,7 @@ func handleErr(err error) {
 		_, _ = fmt.Fprintf(
 			os.Stderr,
 			"%s %s\n",
-			lipgloss.NewStyle().Foreground(color.Red).Render(icon.Cross),
+			style.Fg(color.Red)(icon.Cross),
 			strings.Trim(err.Error(), " \n"),
 		)
 		os.Exit(1)

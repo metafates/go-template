@@ -1,12 +1,12 @@
 package cmd
 
 import (
+	"github.com/metafates/go-template/color"
+	"github.com/metafates/go-template/style"
 	"html/template"
 	"os"
 	"runtime"
 
-	"github.com/charmbracelet/lipgloss"
-	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/constant"
 	"github.com/spf13/cobra"
 )
@@ -35,9 +35,9 @@ var versionCmd = &cobra.Command{
 		}
 
 		t, err := template.New("version").Funcs(map[string]any{
-			"faint":   lipgloss.NewStyle().Faint(true).Render,
-			"bold":    lipgloss.NewStyle().Bold(true).Render,
-			"magenta": lipgloss.NewStyle().Foreground(color.Purple).Render,
+			"faint":   style.Faint,
+			"bold":    style.Bold,
+			"magenta": style.Fg(color.Purple),
 		}).Parse(`{{ magenta "▇▇▇" }} {{ magenta .App }} 
 
   {{ faint "Version" }}   {{ bold .Version }}
