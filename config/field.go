@@ -4,31 +4,51 @@ import (
 	"fmt"
 	"github.com/metafates/go-template/constant"
 	"github.com/metafates/go-template/style"
+	"github.com/samber/lo"
+	"github.com/spf13/viper"
 	"reflect"
 	"strings"
+	"text/template"
 
 	"github.com/metafates/go-template/color"
-	"github.com/spf13/viper"
 )
 
 type Field struct {
-	Key         string
-	Value       any
-	Description string
+	Key          string
+	DefaultValue any
+	Description  string
 }
 
-func (f Field) Pretty() string {
-	return fmt.Sprintf(
-		`%s
-%s: %s = %s
-`,
-		style.Faint(f.Description),
-		style.Fg(color.Purple)(f.Key),
-		style.Fg(color.Yellow)(reflect.TypeOf(f.Value).String()),
-		style.Fg(color.Cyan)(fmt.Sprintf("%v", viper.Get(f.Key))),
-	)
+var prettyTemplate = lo.Must(template.New("pretty").Funcs(template.FuncMap{
+	"faint":    style.Faint,
+	"bold":     style.Bold,
+	"purple":   style.Fg(color.Purple),
+	"yellow":   style.Fg(color.Yellow),
+	"cyan":     style.Fg(color.Cyan),
+	"value":    func(k string) string { return fmt.Sprint(viper.Get(k)) },
+	"typename": func(v any) string { return reflect.TypeOf(v).String() },
+}).Parse(`{{ faint .Description }}
+{{ yellow "Key:" }}     {{ purple .Key }}
+{{ yellow "Env:" }}     {{ .Env }}
+{{ yellow "Value:" }}   {{ value .Key }}
+{{ yellow "Default:" }} {{ .DefaultValue }}
+{{ yellow "Type:" }}    {{ typename .DefaultValue }}`))
+
+func (f *Field) Pretty() string {
+	var b strings.Builder
+
+	lo.Must0(prettyTemplate.Execute(&b, f))
+
+	return b.String()
 }
 
-func (f Field) Env() string {
-	return strings.ToUpper(constant.App + "_" + EnvKeyReplacer.Replace(f.Key))
+func (f *Field) Env() string {
+	env := strings.ToUpper(EnvKeyReplacer.Replace(f.Key))
+	appPrefix := strings.ToUpper(constant.App + "_")
+
+	if strings.HasPrefix(env, appPrefix) {
+		return env
+	}
+
+	return appPrefix + env
 }

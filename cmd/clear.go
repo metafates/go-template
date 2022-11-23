@@ -13,8 +13,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type clearTarget struct {
+	name  string
+	clear func() error
+}
+
 // Specify what can be cleared
-var clearTargets = []lo.Tuple2[string, func() error]{
+var clearTargets = []clearTarget{
 	{"cache", func() error {
 		return filesystem.Api().RemoveAll(where.Cache())
 	}},
@@ -26,7 +31,7 @@ var clearTargets = []lo.Tuple2[string, func() error]{
 func init() {
 	rootCmd.AddCommand(clearCmd)
 	for _, n := range clearTargets {
-		clearCmd.Flags().BoolP(n.A, string(n.A[0]), false, "clear "+n.A)
+		clearCmd.Flags().BoolP(n.name, string(n.name[0]), false, "clear "+n.name)
 	}
 }
 
@@ -37,9 +42,9 @@ var clearCmd = &cobra.Command{
 		successStyle := style.Fg(color.Green)
 		var didSomething bool
 		for _, n := range clearTargets {
-			if lo.Must(cmd.Flags().GetBool(n.A)) {
-				handleErr(n.B())
-				fmt.Printf("%s %s cleared\n", successStyle(icon.Check), util.Capitalize(n.A))
+			if lo.Must(cmd.Flags().GetBool(n.name)) {
+				handleErr(n.clear())
+				fmt.Printf("%s %s cleared\n", successStyle(icon.Check), util.Capitalize(n.name))
 				didSomething = true
 			}
 		}

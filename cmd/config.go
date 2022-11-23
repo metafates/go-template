@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/metafates/go-template/style"
+	"golang.org/x/exp/slices"
 	"os"
 	"path/filepath"
 	"sort"
@@ -35,7 +36,7 @@ func errUnknownKey(key string) error {
 	return errors.New(msg)
 }
 
-func completionConfigKeys(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+func completionConfigKeys(_ *cobra.Command, _ []string, _ string) ([]string, cobra.ShellCompDirective) {
 	return lo.Keys(config.Default), cobra.ShellCompDirectiveNoFileComp
 }
 
@@ -65,7 +66,7 @@ var configInfoCmd = &cobra.Command{
 
 		if key != "" {
 			if field, ok := config.Default[key]; ok {
-				fields = []config.Field{field}
+				fields = []*config.Field{field}
 			} else {
 				handleErr(errUnknownKey(key))
 			}
@@ -76,7 +77,7 @@ var configInfoCmd = &cobra.Command{
 		})
 
 		for i, field := range fields {
-			fmt.Print(field.Pretty())
+			fmt.Println(field.Pretty())
 
 			if i < len(fields)-1 {
 				fmt.Println()
@@ -109,7 +110,7 @@ var configSetCmd = &cobra.Command{
 		}
 
 		var v any
-		switch config.Default[key].Value.(type) {
+		switch config.Default[key].DefaultValue.(type) {
 		case string:
 			v = value
 		case int:
@@ -170,36 +171,32 @@ var configGetCmd = &cobra.Command{
 
 func init() {
 	configCmd.AddCommand(configEnvCmd)
-	configEnvCmd.Flags().StringP("key", "k", "", "The key to get the env for")
-	_ = configEnvCmd.RegisterFlagCompletionFunc("key", completionConfigKeys)
 }
 
 var configEnvCmd = &cobra.Command{
 	Use:   "env",
 	Short: "Show the env for each config field",
 	Run: func(cmd *cobra.Command, args []string) {
-		var (
-			key    = lo.Must(cmd.Flags().GetString("key"))
-			fields = lo.Values(config.Default)
-		)
+		fields := lo.Values(config.Default)
+		fields = append(fields, &config.Field{Key: where.EnvConfigPath})
 
-		if key != "" {
-			if field, ok := config.Default[key]; ok {
-				fields = []config.Field{field}
-			} else {
-				handleErr(errUnknownKey(key))
-			}
-		}
+		slices.SortFunc(fields, func(a, b *config.Field) bool {
+			return a.Key < b.Key
+		})
 
 		for _, field := range fields {
-			env := field.Env()
-			value, set := os.LookupEnv(env)
+			envValue, isSet := os.LookupEnv(field.Env())
 
-			if set {
-				fmt.Printf("%s=%s\n", env, value)
+			var value string
+
+			if isSet {
+				value = envValue
 			} else {
-				fmt.Printf("%s=\n", env)
+				value = style.Faint("unset")
 			}
+
+			_, err := fmt.Fprintf(cmd.OutOrStdout(), "%s=%s\n", field.Env(), value)
+			handleErr(err)
 		}
 	},
 }

@@ -34,7 +34,7 @@ func Execute() {
 	})
 
 	// Clears temp files on each run.
-	// It should not affect startup time since it's being run in parallel.
+	// It should not affect startup time since it's being run as goroutine.
 	go func() {
 		_ = filesystem.Api().RemoveAll(where.Temp())
 	}()

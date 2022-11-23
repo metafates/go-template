@@ -6,7 +6,7 @@ import (
 )
 
 // fields is the config fields with their default values and descriptions
-var fields = []Field{
+var fields = []*Field{
 	// LOGS
 	{
 		constant.LogsWrite,
@@ -24,12 +24,12 @@ panic, fatal, error, warn, info, debug, trace`,
 }
 
 func setDefaults() {
-	Default = make(map[string]Field)
+	Default = make(map[string]*Field, len(fields))
 	for _, f := range fields {
 		Default[f.Key] = f
-		viper.SetDefault(f.Key, f.Value)
+		viper.SetDefault(f.Key, f.DefaultValue)
 		viper.MustBindEnv(f.Key)
 	}
 }
 
-var Default map[string]Field
+var Default map[string]*Field
