@@ -93,8 +93,7 @@ func init() {
 	lo.Must0(configSetCmd.MarkFlagRequired("key"))
 	_ = configSetCmd.RegisterFlagCompletionFunc("key", completionConfigKeys)
 
-	configSetCmd.Flags().StringP("value", "v", "", "The value to set")
-	lo.Must0(configSetCmd.MarkFlagRequired("value"))
+	configSetCmd.Flags().StringP("value", "v", "", "The value to set. Leave empty to use default")
 }
 
 var configSetCmd = &cobra.Command{
@@ -111,6 +110,12 @@ var configSetCmd = &cobra.Command{
 		}
 
 		var v any
+
+		if lo.IsEmpty(value) {
+			v = config.Default[key].DefaultValue
+			goto write
+		}
+
 		switch config.Default[key].DefaultValue.(type) {
 		case string:
 			v = value
@@ -130,6 +135,7 @@ var configSetCmd = &cobra.Command{
 			v = parsedBool
 		}
 
+	write:
 		viper.Set(key, v)
 		switch err := viper.WriteConfig(); err.(type) {
 		case viper.ConfigFileNotFoundError:
