@@ -18,13 +18,14 @@ import (
 )
 
 func init() {
-	rootCmd.Flags().BoolP("version", "v", false, "version for app")
+	rootCmd.Flags().BoolP("version", "v", false, app.Name+" version")
 }
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   strings.ToLower(app.Name),
-	Short: "App description",
+	Short: app.DescriptionShort,
+	Long:  app.DescriptionLong,
 	Run: func(cmd *cobra.Command, args []string) {
 		if lo.Must(cmd.Flags().GetBool("version")) {
 			versionCmd.Run(versionCmd, args)
@@ -33,6 +34,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
+	// Setup colored cobra
 	cc.Init(&cc.Config{
 		RootCmd:         rootCmd,
 		Headings:        cc.HiCyan + cc.Bold + cc.Underline,
@@ -54,15 +56,19 @@ func Execute() {
 	_ = rootCmd.Execute()
 }
 
+// handleErr will stop program execution and log error to the stderr
+// if err is not nil
 func handleErr(err error) {
-	if err != nil {
-		log.Error(err)
-		_, _ = fmt.Fprintf(
-			os.Stderr,
-			"%s %s\n",
-			style.Fg(color.Red)(icon.Cross),
-			strings.Trim(err.Error(), " \n"),
-		)
-		os.Exit(1)
+	if err == nil {
+		return
 	}
+
+	log.Error(err)
+	_, _ = fmt.Fprintf(
+		os.Stderr,
+		"%s %s\n",
+		style.Fg(color.Red)(icon.Cross),
+		strings.Trim(err.Error(), " \n"),
+	)
+	os.Exit(1)
 }
