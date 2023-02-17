@@ -45,22 +45,22 @@ This will prompt you to type a new name and will replace every occurence of the 
 
 ### Changing name of the app
 
-Change the value of the constant `App` at [constant/constant.go](https://github.com/metafates/go-template/blob/main/constant/constant.go)
+Change the value of the constant `Name` at [app/meta.go](https://github.com/metafates/go-template/blob/main/app/meta.go)
 
 ### Changing config file format from TOML from YAML
 
-Change the value of the constant `ConfigFormat` at [constant/constant.go](https://github.com/metafates/go-template/blob/main/constant/constant.go)
+Change the value of the constant `ConfigFormat` at [config/init.go](https://github.com/metafates/go-template/blob/main/config/init.go)
 
 ### Declaring new config fields
 
-Firstly, declare a field key name as a constant inside [constant/keys.go](https://github.com/metafates/go-template/blob/main/constant/keys.go)
+Firstly, declare a field key name as a constant inside [key/keys.go](https://github.com/metafates/go-template/blob/main/key/keys.go)
 
 Then put them inside [config/default.go](https://github.com/metafates/go-template/blob/0a71f1da1c51415469067edbfbe4cbb90e06ef13/config/default.go#L8:L23) (take a predefined fields for logging as a reference)
 
 For example
 
 ```go
-// constant/keys.go
+// key/keys.go
 
 const IconType = "icon.type"
 ```
@@ -77,13 +77,9 @@ const IconType = "icon.type"
 
 ### Accessing config fields
 
-For the example above it would be `viper.GetString(constant.EmojiType)`. See [viper](https://github.com/spf13/viper) for more information
+For the example above it would be `viper.GetString(key.EmojiType)`. See [viper](https://github.com/spf13/viper) for more information
 
 
 ## Something is not clear?
 
 Please, [open an issue](https://github.com/metafates/go-template/issues/new) so I could document it
-
-## Projects using this template
-
-- [Pat](https://github.com/metafates/pat) - TUI `$PATH` variable manager

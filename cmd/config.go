@@ -3,17 +3,18 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/metafates/go-template/style"
-	"golang.org/x/exp/slices"
 	"os"
 	"path/filepath"
 	"sort"
 	"strconv"
 
+	"github.com/metafates/go-template/app"
+	"github.com/metafates/go-template/style"
+	"golang.org/x/exp/slices"
+
 	levenshtein "github.com/ka-weihe/fast-levenshtein"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/config"
-	"github.com/metafates/go-template/constant"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
 	"github.com/metafates/go-template/where"
@@ -214,7 +215,7 @@ var configWriteCmd = &cobra.Command{
 			force          = lo.Must(cmd.Flags().GetBool("force"))
 			configFilePath = filepath.Join(
 				where.Config(),
-				fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat),
+				fmt.Sprintf("%s.%s", app.Name, config.ConfigFormat),
 			)
 		)
 
@@ -246,7 +247,7 @@ var configDeleteCmd = &cobra.Command{
 	Short:   "Delete the config file",
 	Aliases: []string{"remove"},
 	Run: func(cmd *cobra.Command, args []string) {
-		configFilePath := filepath.Join(where.Config(), fmt.Sprintf("%s.%s", constant.App, constant.ConfigFormat))
+		configFilePath := filepath.Join(where.Config(), fmt.Sprintf("%s.%s", app.Name, config.ConfigFormat))
 
 		exists, err := filesystem.Api().Exists(configFilePath)
 		handleErr(err)

@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/metafates/go-template/app"
 	"github.com/metafates/go-template/color"
-	"github.com/metafates/go-template/constant"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
 	"github.com/metafates/go-template/style"
@@ -37,7 +38,7 @@ func init() {
 
 var clearCmd = &cobra.Command{
 	Use:   "clear",
-	Short: "Clears sidelined files produced by the " + constant.App,
+	Short: "Clears sidelined files produced by the " + app.Name,
 	Run: func(cmd *cobra.Command, args []string) {
 		successStyle := style.Fg(color.Green)
 		var didSomething bool

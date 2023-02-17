@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/metafates/go-template/constant"
+	"github.com/metafates/go-template/key"
 	"github.com/spf13/viper"
 )
 
@@ -9,18 +9,26 @@ import (
 var fields = []*Field{
 	// LOGS
 	{
-		constant.LogsWrite,
+		key.LogsWrite,
 		false,
 		"Write logs to file",
 	},
 	{
-		constant.LogsLevel,
+		key.LogsLevel,
 		"info",
 		`Logs level.
 Available options are: (from less to most verbose)
 panic, fatal, error, warn, info, debug, trace`,
 	},
 	// END LOGS
+
+	// DOWNLOADER
+	{
+		key.DownloaderPath,
+		".",
+		"Path to the downloader executable",
+	},
+	// END DOWNLOADER
 }
 
 func setDefaults() {

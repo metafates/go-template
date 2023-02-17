@@ -3,21 +3,22 @@ package log
 import (
 	"errors"
 	"fmt"
-	"github.com/metafates/go-template/constant"
+	"os"
+	"path/filepath"
+	"time"
+
 	"github.com/metafates/go-template/filesystem"
+	"github.com/metafates/go-template/key"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"os"
-	"path/filepath"
-	"time"
 )
 
 var writeLogs bool
 
 func Init() error {
-	writeLogs = viper.GetBool(constant.LogsWrite)
+	writeLogs = viper.GetBool(key.LogsWrite)
 
 	if !writeLogs {
 		return nil
@@ -42,7 +43,7 @@ func Init() error {
 	log.SetOutput(logFile)
 	log.SetFormatter(&log.TextFormatter{})
 
-	switch viper.GetString(constant.LogsLevel) {
+	switch viper.GetString(key.LogsLevel) {
 	case "panic":
 		log.SetLevel(log.PanicLevel)
 	case "fatal":

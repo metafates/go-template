@@ -1,22 +1,27 @@
 package config
 
 import (
-	"github.com/metafates/go-template/constant"
+	"strings"
+
+	"github.com/metafates/go-template/app"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/where"
 	"github.com/spf13/viper"
-	"strings"
 )
+
+// ConfigFormat is the format of the config file
+// Available options are: json, yaml, toml
+const ConfigFormat = "toml"
 
 var EnvKeyReplacer = strings.NewReplacer(".", "_")
 
 func Init() error {
-	viper.SetConfigName(constant.App)
-	viper.SetConfigType(constant.ConfigFormat)
+	viper.SetConfigName(app.Name)
+	viper.SetConfigType(ConfigFormat)
 	viper.SetFs(filesystem.Api())
 	viper.AddConfigPath(where.Config())
 	viper.SetTypeByDefaultValue(true)
-	viper.SetEnvPrefix(constant.App)
+	viper.SetEnvPrefix(app.Name)
 	viper.SetEnvKeyReplacer(EnvKeyReplacer)
 
 	setDefaults()
