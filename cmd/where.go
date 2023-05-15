@@ -1,11 +1,11 @@
 package cmd
 
 import (
+	"github.com/charmbracelet/lipgloss"
 	"os"
 
 	"github.com/metafates/go-template/app"
 	"github.com/metafates/go-template/color"
-	"github.com/metafates/go-template/style"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
@@ -20,7 +20,6 @@ type whereTarget struct {
 
 // Specify what paths to show
 var wherePaths = []whereTarget{
-	{"Downloads", where.Downloads, "d", "downloads"},
 	{"Config", where.Config, "c", "config"},
 	{"Logs", where.Logs, "l", "logs"},
 }
@@ -47,8 +46,8 @@ var whereCmd = &cobra.Command{
 	Use:   "where",
 	Short: "Show the paths for a files related to the " + app.Name,
 	Run: func(cmd *cobra.Command, args []string) {
-		headerStyle := style.NewColored(color.HiPurple, "").Bold(true).Render
-		argStyle := style.Fg(color.Yellow)
+		headerStyle := lipgloss.NewStyle().Foreground(color.HiPurple).Bold(true).Render
+		argStyle := lipgloss.NewStyle().Foreground(color.Yellow).Render
 
 		for _, n := range wherePaths {
 			if lo.Must(cmd.Flags().GetBool(n.argLong)) {

@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/charmbracelet/lipgloss"
 
 	"github.com/metafates/go-template/app"
 	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
-	"github.com/metafates/go-template/style"
 	"github.com/metafates/go-template/util"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
@@ -40,7 +40,7 @@ var clearCmd = &cobra.Command{
 	Use:   "clear",
 	Short: "Clears sidelined files produced by the " + app.Name,
 	Run: func(cmd *cobra.Command, args []string) {
-		successStyle := style.Fg(color.Green)
+		successStyle := lipgloss.NewStyle().Foreground(color.Green).Render
 		var didSomething bool
 		for _, n := range clearTargets {
 			if lo.Must(cmd.Flags().GetBool(n.name)) {

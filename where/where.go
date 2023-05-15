@@ -6,8 +6,6 @@ import (
 	"runtime"
 
 	"github.com/metafates/go-template/app"
-	"github.com/metafates/go-template/key"
-	"github.com/spf13/viper"
 )
 
 func home() string {
@@ -67,13 +65,4 @@ func Cache() string {
 func Temp() string {
 	tempDir := filepath.Join(os.TempDir(), app.Name)
 	return mkdir(tempDir)
-}
-
-func Downloads() string {
-	var path string
-
-	path = viper.GetString(key.DownloaderPath)
-	path = os.ExpandEnv(path)
-
-	return mkdir(path)
 }

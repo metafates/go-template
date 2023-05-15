@@ -10,7 +10,7 @@ var fields = []*Field{
 	// LOGS
 	{
 		key.LogsWrite,
-		false,
+		true,
 		"Write logs to file",
 	},
 	{
@@ -18,17 +18,14 @@ var fields = []*Field{
 		"info",
 		`Logs level.
 Available options are: (from less to most verbose)
-panic, fatal, error, warn, info, debug, trace`,
+fatal, error, warn, info, debug`,
+	},
+	{
+		key.LogsReportCaller,
+		false,
+		"Whether the logger should report the caller location.",
 	},
 	// END LOGS
-
-	// DOWNLOADER
-	{
-		key.DownloaderPath,
-		".",
-		"Path to the downloader executable",
-	},
-	// END DOWNLOADER
 }
 
 func setDefaults() {

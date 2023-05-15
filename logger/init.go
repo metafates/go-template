@@ -1,8 +1,10 @@
-package log
+package logger
 
 import (
 	"errors"
 	"fmt"
+	"github.com/charmbracelet/log"
+	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
 	"time"
@@ -11,19 +13,9 @@ import (
 	"github.com/metafates/go-template/key"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 )
 
-var writeLogs bool
-
 func Init() error {
-	writeLogs = viper.GetBool(key.LogsWrite)
-
-	if !writeLogs {
-		return nil
-	}
-
 	logsPath := where.Logs()
 
 	if logsPath == "" {
@@ -35,32 +27,22 @@ func Init() error {
 	if !lo.Must(filesystem.Api().Exists(logFilePath)) {
 		lo.Must(filesystem.Api().Create(logFilePath))
 	}
+
 	logFile, err := filesystem.Api().OpenFile(logFilePath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		return err
 	}
 
-	log.SetOutput(logFile)
-	log.SetFormatter(&log.TextFormatter{})
+	logger := log.NewWithOptions(logFile, log.Options{
+		TimeFormat:      time.TimeOnly,
+		ReportTimestamp: true,
+		ReportCaller:    viper.GetBool(key.LogsReportCaller),
+	})
 
-	switch viper.GetString(key.LogsLevel) {
-	case "panic":
-		log.SetLevel(log.PanicLevel)
-	case "fatal":
-		log.SetLevel(log.FatalLevel)
-	case "error":
-		log.SetLevel(log.ErrorLevel)
-	case "warn":
-		log.SetLevel(log.WarnLevel)
-	case "info":
-		log.SetLevel(log.InfoLevel)
-	case "debug":
-		log.SetLevel(log.DebugLevel)
-	case "trace":
-		log.SetLevel(log.TraceLevel)
-	default:
-		log.SetLevel(log.InfoLevel)
-	}
+	level := log.ParseLevel(key.LogsLevel)
+	logger.SetLevel(level)
+
+	log.SetDefault(logger)
 
 	return nil
 }

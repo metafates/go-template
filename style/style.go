@@ -1,25 +1,12 @@
 package style
 
-import "github.com/charmbracelet/lipgloss"
-
-func New() lipgloss.Style {
-	return lipgloss.NewStyle()
-}
-
-func NewColored(foreground, background lipgloss.Color) lipgloss.Style {
-	return New().Foreground(foreground).Background(background)
-}
-
-func Fg(color lipgloss.Color) func(string) string {
-	return NewColored(color, "").Render
-}
-
-func Bg(color lipgloss.Color) func(string) string {
-	return NewColored("", color).Render
-}
+import (
+	"github.com/charmbracelet/lipgloss"
+	"github.com/metafates/go-template/color"
+)
 
 var (
-	Faint  = New().Faint(true).Render
-	Bold   = New().Bold(true).Render
-	Italic = New().Italic(true).Render
+	Success = lipgloss.NewStyle().Foreground(color.Green).Render
+	Failure = lipgloss.NewStyle().Foreground(color.Red).Render
+	Warning = lipgloss.NewStyle().Foreground(color.Yellow).Render
 )

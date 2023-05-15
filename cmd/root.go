@@ -2,16 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/charmbracelet/log"
+	"github.com/metafates/go-template/style"
 	"os"
 	"strings"
 
 	cc "github.com/ivanpirog/coloredcobra"
 	"github.com/metafates/go-template/app"
-	"github.com/metafates/go-template/color"
 	"github.com/metafates/go-template/filesystem"
 	"github.com/metafates/go-template/icon"
-	"github.com/metafates/go-template/log"
-	"github.com/metafates/go-template/style"
 	"github.com/metafates/go-template/where"
 	"github.com/samber/lo"
 	"github.com/spf13/cobra"
@@ -56,7 +55,7 @@ func Execute() {
 	_ = rootCmd.Execute()
 }
 
-// handleErr will stop program execution and log error to the stderr
+// handleErr will stop program execution and logger error to the stderr
 // if err is not nil
 func handleErr(err error) {
 	if err == nil {
@@ -67,7 +66,7 @@ func handleErr(err error) {
 	_, _ = fmt.Fprintf(
 		os.Stderr,
 		"%s %s\n",
-		style.Fg(color.Red)(icon.Cross),
+		style.Failure(icon.Cross),
 		strings.Trim(err.Error(), " \n"),
 	)
 	os.Exit(1)

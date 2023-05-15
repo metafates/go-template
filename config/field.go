@@ -2,13 +2,13 @@ package config
 
 import (
 	"fmt"
+	"github.com/charmbracelet/lipgloss"
 	"reflect"
 	"strconv"
 	"strings"
 	"text/template"
 
 	"github.com/metafates/go-template/app"
-	"github.com/metafates/go-template/style"
 	"github.com/samber/lo"
 	"github.com/spf13/viper"
 
@@ -40,23 +40,23 @@ func (f *Field) typeName() string {
 }
 
 var prettyTemplate = lo.Must(template.New("pretty").Funcs(template.FuncMap{
-	"faint":  style.Faint,
-	"bold":   style.Bold,
-	"purple": style.Fg(color.Purple),
-	"blue":   style.Fg(color.Blue),
-	"cyan":   style.Fg(color.Cyan),
+	"faint":  lipgloss.NewStyle().Faint(true).Render,
+	"bold":   lipgloss.NewStyle().Bold(true).Render,
+	"purple": lipgloss.NewStyle().Foreground(color.Purple).Render,
+	"blue":   lipgloss.NewStyle().Foreground(color.Blue).Render,
+	"cyan":   lipgloss.NewStyle().Foreground(color.Cyan).Render,
 	"value":  func(k string) any { return viper.Get(k) },
 	"hl": func(v any) string {
 		switch value := v.(type) {
 		case bool:
 			b := strconv.FormatBool(value)
 			if value {
-				return style.Fg(color.Green)(b)
+				return lipgloss.NewStyle().Foreground(color.Green).Render(b)
 			}
 
-			return style.Fg(color.Red)(b)
+			return lipgloss.NewStyle().Foreground(color.Red).Render(b)
 		case string:
-			return style.Fg(color.Yellow)(value)
+			return lipgloss.NewStyle().Foreground(color.Yellow).Render(value)
 		default:
 			return fmt.Sprint(value)
 		}
